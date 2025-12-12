@@ -185,8 +185,7 @@
   background-color: #ffffff;
   border-radius: 0.625rem;
   box-shadow: 0 0.5rem 0.625rem -0.375rem rgba(0, 0, 0, 0.1), 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, 0.1);
-}
-.hero-section .quote-card {
+  padding-inline: 5.375rem;
   padding-block: 1.25rem;
 }
 .hero-section .progress-wrap {
@@ -293,7 +292,7 @@
 }
 .hero-section .consent-text {
   font-size: 0.75rem;
-  color: #666;
+  color: #000000;
   line-height: 1.5;
   margin: 0;
 }
@@ -324,7 +323,7 @@
 .hero-section .btn-back {
   background: transparent;
   border: none;
-  color: #737373;
+  color: #000000;
   cursor: pointer;
   font-size: 0.875rem;
   padding: 0;
@@ -647,6 +646,7 @@
 .step-two {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .step-two :nth-child(2) {
   min-height: 2.4375rem;
@@ -666,6 +666,63 @@
 
 form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   max-width: 100%;
+}
+
+.hero-section__form-point.form-point.quote-card:has(div[data-step-desktop="2"]) .form-footer-text {
+  display: none;
+}
+
+.hero-section__form-point.form-point.quote-card:has(div[data-step-desktop="2"]) label {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.hero-section__form-point:has(div[data-step-desktop="2"]) {
+  padding-inline: 3.125rem;
+}
+
+.hero-section__form-point:has(div[data-step-desktop="2"]) .btn-back {
+  padding-inline-start: 3.125rem;
+  padding-block-end: 0.625rem;
+  line-height: 143%;
+}
+
+.hero-section__form-point:has(div[data-step-desktop="2"]) .--form-error {
+  flex-wrap: wrap;
+}
+
+.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-date-error],
+div[data-select-error],
+div[data-name-error],
+div[data-phone-error],
+div[data-email-error] {
+  padding-inline-start: 25%;
+}
+
+.form-input[data-fls-datepicker] {
+  position: relative;
+}
+
+.form-group:has(input[data-fls-datepicker]) {
+  position: relative;
+}
+
+.form-group:has(input.--icon-success) {
+  position: relative;
+}
+
+.form-group:has(input[data-fls-datepicker])::after {
+  font-family: iconfont;
+  content: "\f101";
+  position: absolute;
+  top: 50%;
+  right: 0.9375rem;
+  transform: translateY(-50%);
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+  font-size: 0.625rem;
+  color: #656565;
 }
 
 @media (width <= 63.0625em) {
@@ -991,9 +1048,6 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   .hero-section .accreditations__list-text {
     font-size: 0.5rem;
   }
-  .hero-section .quote-card {
-    padding-inline: 1.6875rem;
-  }
   .hero-section .form-title {
     font-size: 1.125rem;
   }
@@ -1224,9 +1278,6 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   .hero-section .accreditations__list-text {
     font-size: clamp( 0.5rem , 0.28378378378125rem  +  1.0810810811vw , 1.25rem );
   }
-  .hero-section .quote-card {
-    padding-inline: clamp( 1.6875rem , 0.6244369369375rem  +  5.3153153153vw , 5.375rem );
-  }
   .hero-section .form-title {
     font-size: clamp( 1.125rem , 0.94481981981875rem  +  0.9009009009vw , 1.75rem );
   }
@@ -1450,9 +1501,6 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   }
   .hero-section .accreditations__list-text {
     font-size: 1.25rem;
-  }
-  .hero-section .quote-card {
-    padding-inline: 5.375rem;
   }
   .hero-section .form-title {
     font-size: 1.75rem;

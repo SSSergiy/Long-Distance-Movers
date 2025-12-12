@@ -3711,7 +3711,7 @@ const langs = {
   en
 };
 if (document.querySelector("[data-fls-datepicker]")) {
-  const LANG = "ua";
+  const LANG = "en";
   const datePicker = datepicker("[data-fls-datepicker]", {
     customDays: langs[LANG].week,
     customMonths: langs[LANG].month,
