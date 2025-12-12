@@ -4,6 +4,417 @@ window.addEventListener("load", () => {
   initMultiStepForm();
   const form = document.querySelector(".multi-step-form");
   if (form) {
+    let validateZipCode = function(input) {
+      if (!input) return false;
+      const value = input.value.trim();
+      const formGroup = input.closest(".form-group");
+      const existingError = formGroup?.querySelector("[data-zip-error]");
+      if (existingError) {
+        existingError.remove();
+      }
+      input.classList.remove("--form-error", "--form-success");
+      if (formGroup) {
+        formGroup.classList.remove("--form-error", "--form-success");
+      }
+      if (value === "") {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-zip-error>Zip code field can not be empty</div>");
+        }
+        return false;
+      }
+      if (value.length !== 5 || !/^\d{5}$/.test(value)) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-zip-error>Wrong zip code format</div>");
+        }
+        return false;
+      }
+      input.classList.add("--form-success");
+      if (formGroup) {
+        formGroup.classList.add("--form-success");
+      }
+      return true;
+    }, restrictZipInput = function(input) {
+      if (!input) return;
+      input.addEventListener("input", (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        if (value.length > 5) {
+          value = value.slice(0, 5);
+        }
+        e.target.value = value;
+        validateZipCode(e.target);
+      });
+      input.addEventListener("keypress", (e) => {
+        if (!/[0-9]/.test(e.key) && !["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+      input.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData("text");
+        const numbersOnly = pastedText.replace(/\D/g, "").slice(0, 5);
+        input.value = numbersOnly;
+        validateZipCode(input);
+      });
+      input.addEventListener("blur", () => {
+        validateZipCode(input);
+      });
+    }, validateMovingDate = function(input) {
+      if (!input) return false;
+      const value = input.value.trim();
+      const formGroup = input.closest(".form-group");
+      const existingError = formGroup?.querySelector("[data-date-error]");
+      if (existingError) {
+        existingError.remove();
+      }
+      input.classList.remove("--form-error", "--form-success");
+      if (formGroup) {
+        formGroup.classList.remove("--form-error", "--form-success");
+      }
+      if (value === "" || value === "Select Move Date") {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-date-error>Please select a moving date</div>");
+        }
+        return false;
+      }
+      input.classList.add("--form-success");
+      if (formGroup) {
+        formGroup.classList.add("--form-success");
+      }
+      return true;
+    }, validateHomeSize = function(select) {
+      if (!select) return false;
+      const value = select.value ? select.value.trim() : "";
+      const formGroup = select.closest(".form-group");
+      const customSelect = formGroup?.querySelector(".select");
+      const selectTitle = customSelect?.querySelector(".select__title");
+      const existingError = formGroup?.querySelector("[data-select-error]");
+      if (existingError) {
+        existingError.remove();
+      }
+      if (selectTitle) {
+        selectTitle.classList.remove("--form-error", "--form-success");
+      }
+      if (customSelect) {
+        customSelect.classList.remove("--form-error", "--form-success");
+      }
+      if (formGroup) {
+        formGroup.classList.remove("--form-error", "--form-success");
+      }
+      if (value === "" || value === null || !value) {
+        if (selectTitle) {
+          selectTitle.classList.add("--form-error");
+        }
+        if (customSelect) {
+          customSelect.classList.add("--form-error");
+        }
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-select-error>Please select a home size</div>");
+        }
+        return false;
+      }
+      if (selectTitle) {
+        selectTitle.classList.add("--form-success");
+      }
+      if (customSelect) {
+        customSelect.classList.add("--form-success");
+      }
+      if (formGroup) {
+        formGroup.classList.add("--form-success");
+      }
+      return true;
+    }, restrictNameInput = function(input) {
+      if (!input) return;
+      input.addEventListener("input", (e) => {
+        let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+        value = value.replace(/\s+/g, " ");
+        e.target.value = value;
+        validateFullName(e.target);
+      });
+      input.addEventListener("keypress", (e) => {
+        if (!/[a-zA-Z\s]/.test(e.key) && !["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+      input.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData("text");
+        const lettersOnly = pastedText.replace(/[^a-zA-Z\s]/g, "").replace(/\s+/g, " ");
+        input.value = lettersOnly;
+        validateFullName(input);
+      });
+    }, validateFullName = function(input) {
+      if (!input) return false;
+      const value = input.value.trim();
+      const formGroup = input.closest(".form-group");
+      const existingError = formGroup?.querySelector("[data-name-error]");
+      if (existingError) {
+        existingError.remove();
+      }
+      input.classList.remove("--form-error", "--form-success");
+      if (formGroup) {
+        formGroup.classList.remove("--form-error", "--form-success");
+      }
+      if (value === "") {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Full name field can not be empty</div>");
+        }
+        return false;
+      }
+      const nameParts = value.split(/\s+/).filter((part) => part.length > 0);
+      if (nameParts.length < 2) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Please enter first and last name</div>");
+        }
+        return false;
+      }
+      const firstName = nameParts[0];
+      if (firstName.length < 3) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>First name must contain at least 3 letters</div>");
+        }
+        return false;
+      }
+      const lastName = nameParts[nameParts.length - 1];
+      if (lastName.length < 3) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Last name must contain at least 3 letters</div>");
+        }
+        return false;
+      }
+      input.classList.add("--form-success");
+      if (formGroup) {
+        formGroup.classList.add("--form-success");
+      }
+      return true;
+    }, validatePhone = function(input) {
+      if (!input) return false;
+      const value = input.value.trim();
+      const formGroup = input.closest(".form-group");
+      const existingError = formGroup?.querySelector("[data-phone-error]");
+      if (existingError) {
+        existingError.remove();
+      }
+      input.classList.remove("--form-error", "--form-success");
+      if (formGroup) {
+        formGroup.classList.remove("--form-error", "--form-success");
+      }
+      if (value === "" || value === "+1(___) ___-____") {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Phone field can not be empty</div>");
+        }
+        return false;
+      }
+      const digitsOnly = value.replace(/\D/g, "");
+      if (digitsOnly.length < 10 || digitsOnly.length > 11) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Wrong phone number format</div>");
+        }
+        return false;
+      }
+      if (value.includes("_") || value.includes("(") && !value.match(/\+1\(\d{3}\)\s\d{3}-\d{4}/)) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Please enter a complete phone number</div>");
+        }
+        return false;
+      }
+      const phoneRegex = /^\+1\(\d{3}\)\s\d{3}-\d{4}$/;
+      if (!phoneRegex.test(value)) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Wrong phone number format</div>");
+        }
+        return false;
+      }
+      input.classList.add("--form-success");
+      if (formGroup) {
+        formGroup.classList.add("--form-success");
+      }
+      return true;
+    }, validateEmail = function(input) {
+      if (!input) return false;
+      const value = input.value.trim();
+      const formGroup = input.closest(".form-group");
+      const existingError = formGroup?.querySelector("[data-email-error]");
+      if (existingError) {
+        existingError.remove();
+      }
+      input.classList.remove("--form-error", "--form-success");
+      if (formGroup) {
+        formGroup.classList.remove("--form-error", "--form-success");
+      }
+      if (value === "") {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Email field can not be empty</div>");
+        }
+        return false;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Wrong email format</div>");
+        }
+        return false;
+      }
+      const strictEmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!strictEmailRegex.test(value)) {
+        input.classList.add("--form-error");
+        if (formGroup) {
+          formGroup.classList.add("--form-error");
+          formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Wrong email format</div>");
+        }
+        return false;
+      }
+      input.classList.add("--form-success");
+      if (formGroup) {
+        formGroup.classList.add("--form-success");
+      }
+      return true;
+    };
+    const zipFromInput = form.querySelector("#zip-from");
+    const zipToInput = form.querySelector("#zip-to");
+    if (zipFromInput) {
+      restrictZipInput(zipFromInput);
+    }
+    if (zipToInput) {
+      restrictZipInput(zipToInput);
+    }
+    const movingDateInput = form.querySelector("#moving-date");
+    if (movingDateInput) {
+      movingDateInput.addEventListener("blur", () => {
+        validateMovingDate(movingDateInput);
+      });
+      movingDateInput.addEventListener("input", () => {
+        validateMovingDate(movingDateInput);
+      });
+      movingDateInput.addEventListener("change", () => {
+        validateMovingDate(movingDateInput);
+      });
+      setInterval(() => {
+        if (movingDateInput.value && movingDateInput.value.trim() !== "" && movingDateInput.value !== "Select Move Date") {
+          validateMovingDate(movingDateInput);
+        }
+      }, 300);
+    }
+    const homeSizeSelect = form.querySelector('select[name="home_size"]') || form.querySelector("#home-size");
+    if (homeSizeSelect) {
+      let setupSelectValidation = function() {
+        const formGroup = homeSizeSelect?.closest(".form-group");
+        const customSelect = formGroup?.querySelector(".select");
+        if (customSelect) {
+          const selectOptions = customSelect.querySelectorAll(".select__option");
+          selectOptions.forEach((option) => {
+            option.removeEventListener("click", handleOptionClick);
+            option.addEventListener("click", handleOptionClick);
+          });
+        } else {
+          setTimeout(setupSelectValidation, 100);
+        }
+      }, handleOptionClick = function() {
+        setTimeout(() => {
+          validateHomeSize(homeSizeSelect);
+        }, 150);
+      };
+      homeSizeSelect.addEventListener("change", () => {
+        validateHomeSize(homeSizeSelect);
+      });
+      setupSelectValidation();
+      homeSizeSelect.addEventListener("blur", () => {
+        validateHomeSize(homeSizeSelect);
+      });
+      setInterval(() => {
+        if (homeSizeSelect.value && homeSizeSelect.value.trim() !== "") {
+          validateHomeSize(homeSizeSelect);
+        }
+      }, 300);
+      const selectContent = form.querySelector(".select__content");
+      if (selectContent) {
+        const observer = new MutationObserver(() => {
+          validateHomeSize(homeSizeSelect);
+        });
+        observer.observe(selectContent, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+      }
+    }
+    const fullNameInput = form.querySelector("#full-name");
+    if (fullNameInput) {
+      restrictNameInput(fullNameInput);
+      fullNameInput.addEventListener("input", () => {
+        validateFullName(fullNameInput);
+      });
+      fullNameInput.addEventListener("blur", () => {
+        validateFullName(fullNameInput);
+      });
+    }
+    const phoneInput = form.querySelector("#phone");
+    if (phoneInput) {
+      phoneInput.addEventListener("input", () => {
+        validatePhone(phoneInput);
+      });
+      phoneInput.addEventListener("change", () => {
+        validatePhone(phoneInput);
+      });
+      phoneInput.addEventListener("blur", () => {
+        validatePhone(phoneInput);
+      });
+    }
+    const emailInput = form.querySelector("#email");
+    if (emailInput) {
+      emailInput.addEventListener("input", () => {
+        validateEmail(emailInput);
+      });
+      emailInput.addEventListener("change", () => {
+        validateEmail(emailInput);
+      });
+      emailInput.addEventListener("blur", () => {
+        validateEmail(emailInput);
+      });
+    }
+    window.quoteFormValidation = {
+      validateZipCode,
+      validateMovingDate,
+      validateHomeSize,
+      validateFullName,
+      validatePhone,
+      validateEmail,
+      zipFromInput,
+      zipToInput,
+      movingDateInput,
+      homeSizeSelect,
+      fullNameInput,
+      phoneInput,
+      emailInput
+    };
+  }
+  if (form) {
     let redirectToHome = function() {
       if (redirectDone) return;
       redirectDone = true;

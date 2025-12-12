@@ -11,16 +11,34 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
 		<meta name="apple-mobile-web-app-title" content="MyWebSite">
 		<link rel="manifest" href="./assets/img/favicons/site.webmanifest">
-		<script type="module" crossorigin="" src="./js/quote.min.js?v=1765489166602"></script>
-		<link rel="modulepreload" crossorigin="" href="./js/common.min.js?v=1765489166602">
-		<link rel="modulepreload" crossorigin="" href="./js/index.min2.js?v=1765489166602">
-		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765489166602">
-		<link rel="stylesheet" crossorigin="" href="./css/quote.min.css?v=1765489166602">
+		<script type="module" crossorigin="" src="./js/quote.min.js?v=1765559517434"></script>
+		<link rel="modulepreload" crossorigin="" href="./js/common.min.js?v=1765559517434">
+		<link rel="modulepreload" crossorigin="" href="./js/index.min2.js?v=1765559517434">
+		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765559517434">
+		<link rel="stylesheet" crossorigin="" href="./css/quote.min.css?v=1765559517434">
 		<link rel="preload" as="style" href="./css/webfonts.min.css">
 		<link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="./css/webfonts.min.css">
 	</head>
 	<body>
 		<div class="wrapper">
+			<div class="home-page__header">
+				<div class="home-page__header-top header-top">
+					<div class="header-top__container">
+						<div class="header-top__list">
+							<a href="#" class="header-top__logo">
+								<img src="./assets/img/logo.svg" alt="img">
+								<span>LongDistanceMoving.com</span>
+							</a>
+							<a href="#" class="header-top__contacts">(800) 555-1234</a>
+						</div>
+					</div>
+				</div>
+				<div class="home-page__header-bottom header-bottom">
+					<div class="header-bottom__container">
+						<p>Over 20 years of moving expertise</p>
+					</div>
+				</div>
+			</div>
 			<main class="page page--quote quote-page">
 				<div class="quote-page__container">
 					<div class="quote-card">
@@ -35,6 +53,7 @@
 						</div>
 						<form action="php/sendmail" method="POST" class="quote-form multi-step-form" data-fls-form="ajax">
 							<h2 class="form-title">Get Your Locked-In Price</h2>
+							<button type="button" class="btn-back" style="display: none;">← Back</button>
 							<!-- Шаг 1: ZIP коды (мобилка шаг 1) -->
 							<div class="form-step" data-step-mobile="1">
 								<div class="form-group">
@@ -86,18 +105,11 @@
 							<!-- Шаг 5: Consent (мобилка шаг 5) -->
 							<div class="form-step" data-step-mobile="5" style="display: none;">
 								<div class="form-group">
-									<p class="consent-text">
-										By providing your contact information, you agree to receive automated telephone dialing technology for
-							informational and/or marketing purposes. You also agree to our
-										<a href="#" class="consent-link">Privacy
-								Policy</a>
-										.
-									</p>
+									<p class="consent-text">Thank you for choosing us</p>
 								</div>
 							</div>
 							<!-- Навигация формы -->
 							<div class="form-navigation">
-								<button type="button" class="btn-back" style="display: none;">← Back</button>
 								<button type="button" class="btn-next">GET QUOTE</button>
 								<button type="submit" class="btn-submit" style="display: none;">GET QUOTE</button>
 							</div>
