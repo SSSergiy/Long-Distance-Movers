@@ -699,23 +699,13 @@ div[data-email-error] {
   padding-inline-start: 25%;
 }
 
-.form-input[data-fls-datepicker] {
+.form-group.step-two .form-input-wrapper {
   position: relative;
 }
 
-.form-group:has(input[data-fls-datepicker]) {
-  position: relative;
-}
-
-.form-group:has(input.--icon-success) {
-  position: relative;
-}
-
-.form-group:has(input[data-fls-datepicker])::after {
-  font-family: iconfont;
-  content: "\f101";
+.form-input-icon.--icon-success {
   position: absolute;
-  top: 50%;
+  top: 75%;
   right: 0.9375rem;
   transform: translateY(-50%);
   display: block;
@@ -723,6 +713,7 @@ div[data-email-error] {
   pointer-events: none;
   font-size: 0.625rem;
   color: #656565;
+  width: 0.625rem;
 }
 
 @media (width <= 63.0625em) {

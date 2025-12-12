@@ -11,10 +11,10 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
 		<meta name="apple-mobile-web-app-title" content="MyWebSite">
 		<link rel="manifest" href="./assets/img/favicons/site.webmanifest">
-		<link rel="modulepreload" crossorigin href="./js/common.min.js?v=1765582383883">
-		<script type="module" crossorigin="" src="./js/index.min2.js?v=1765582383883"></script>
-		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765582383883">
-		<link rel="stylesheet" crossorigin="" href="./css/index.min.css?v=1765582383883">
+		<link rel="modulepreload" crossorigin href="./js/common.min.js?v=1765583513947">
+		<script type="module" crossorigin="" src="./js/index.min2.js?v=1765583513947"></script>
+		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765583513947">
+		<link rel="stylesheet" crossorigin="" href="./css/index.min.css?v=1765583513947">
 		<link rel="preload" as="style" href="./css/webfonts.min.css">
 		<link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="./css/webfonts.min.css">
 	</head>
@@ -101,7 +101,10 @@
 									<div class="form-step" data-step-desktop="2" style="display: none;">
 										<div class="form-group step-two">
 											<label for="moving-date" class="form-label">Moving date</label>
-											<input type="text" id="moving-date" name="moving_date" class="form-input" data-fls-datepicker="" placeholder="Select Move Date" required>
+											<div class="form-input-wrapper">
+												<input type="text" id="moving-date" name="moving_date" class="form-input" data-fls-datepicker="" placeholder="Select Move Date" required>
+												<span class="form-input-icon --icon-success"></span>
+											</div>
 										</div>
 										<div class="form-group step-two">
 											<label for="home-size" class="form-label">Home Size</label>
