@@ -814,27 +814,27 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   display: none;
 }
 
-.hero-section__form-point:has(div[data-step-desktop="2"]) {
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
   padding-inline: 3.125rem;
   padding-inline-start: 5.25rem;
   padding-inline-end: 7.5rem;
 }
-.hero-section__form-point:has(div[data-step-desktop="2"]) .btn-back {
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .btn-back {
   padding-inline-start: 3.125rem;
   padding-block-end: 0.625rem;
   line-height: 143%;
 }
-.hero-section__form-point:has(div[data-step-desktop="2"]) .--form-error {
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .--form-error {
   flex-wrap: wrap;
 }
-.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-date-error],
-.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-select-error],
-.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-name-error],
-.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-phone-error],
-.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-email-error] {
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) div[data-date-error],
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) div[data-select-error],
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) div[data-name-error],
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) div[data-phone-error],
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) div[data-email-error] {
   padding-inline-start: 25%;
 }
-.hero-section__form-point:has(div[data-step-desktop="2"]) .form-group.step-two .form-input-wrapper {
+.hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .form-group.step-two .form-input-wrapper {
   position: relative;
 }
 
@@ -855,9 +855,26 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   width: 0.625rem;
 }
 
+@media (width <= 81.25em) {
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-start: 0.9375rem;
+    padding-inline-end: 0.9375rem;
+  }
+}
+
 @media (width <= 63.0625em) {
   .why-choose-us .image-container img {
     height: 120%;
+  }
+}
+
+@media (width <= 62.5em) {
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .step-two :nth-child(2) {
+    width: 100%;
   }
 }
 
@@ -1383,6 +1400,12 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   .footer__bottom {
     padding-top: 0.3125rem;
   }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-end: -2.5rem;
+  }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-start: -1.25rem;
+  }
 }
 
 @media (width <= 40.6875em) and (width > 20em) and (width <= 89.375em) {
@@ -1610,6 +1633,12 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   .footer__bottom {
     padding-top: clamp( 0.3125rem , 0.04222972973125rem  +  1.3513513514vw , 1.25rem );
   }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-end: clamp( -2.5rem , -5.38288288288125rem  +  14.4144144144vw , 7.5rem );
+  }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-start: clamp( -1.25rem , -3.123873873875rem  +  9.3693693694vw , 5.25rem );
+  }
 }
 
 @media (width > 89.375em) {
@@ -1830,6 +1859,12 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   }
   .footer__bottom {
     padding-top: 1.25rem;
+  }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-end: 7.5rem;
+  }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
+    padding-inline-start: 5.25rem;
   }
 }
 
