@@ -730,6 +730,7 @@
   padding: 1rem 1rem;
   min-width: 11.1875rem;
   text-transform: uppercase;
+  font-size: 1.125rem;
 }
 .cta span {
   color: rgba(42, 42, 42, 0.9);
