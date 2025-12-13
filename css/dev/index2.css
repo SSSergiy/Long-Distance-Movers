@@ -695,6 +695,18 @@ body:has(.quote-page) .home-page__header-bottom {
   display: none;
 }
 
+body:has(.quote-page) .home-page__header {
+  margin-block-end: 7.125rem;
+}
+
+body:has(div[data-step-mobile="1"][style*="display: block"]) .home-page__header {
+  margin-block-end: 7.125rem;
+}
+
+body:has(div[data-step-mobile="2"][style*="display: block"]) .home-page__header {
+  margin-block-end: 4rem;
+}
+
 @media (width <= 40.6875em) {
   .home-page__header .header-top__logo {
     max-width: 11.3125rem;

@@ -2,7 +2,6 @@
 .quote-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 .quote-page__container {
@@ -38,18 +37,21 @@
   background-color: #E80C16;
   border-radius: 0.1875rem;
 }
-.quote-page .form-title {
+.quote-page .form-title,
+.quote-page .form-title-2,
+.quote-page .form-title-3,
+.quote-page .form-title-4 {
   text-align: center;
-  font-weight: 700;
   margin: 0 0 1.5625rem 0;
   font-weight: 600;
-  line-height: 140%;
   font-size: 1.125rem;
+  line-height: 78%;
 }
 .quote-page .form-group {
   margin-bottom: 1.4375rem;
 }
 .quote-page .form-label {
+  text-align: center;
   display: block;
   font-size: 0.75rem;
   font-weight: 500;
@@ -128,6 +130,7 @@
   color: #000000;
   cursor: pointer;
   font-size: 0.875rem;
+  margin-block-end: 2.5rem;
 }
 .quote-page .btn-next,
 .quote-page .btn-submit {
@@ -139,10 +142,13 @@
   font-size: 0.8125rem;
   font-weight: 500;
   text-transform: uppercase;
-  border-radius: 0.4375rem;
+  border-radius: 1.25rem;
   cursor: pointer;
   transition: background-color 0.2s;
   flex: 1;
+}
+.quote-page .btn-next {
+  margin-block-start: 1.25rem;
 }
 .quote-page .btn-next:hover,
 .quote-page .btn-submit:hover {
@@ -168,4 +174,77 @@
 
 .form-footer-text {
   display: none;
+}
+
+.btn-back.--icon-success::before {
+  transform: rotate(90deg);
+  font-size: 0.625rem;
+}
+
+.form-input[data-fls-datepicker]::placeholder {
+  font-weight: 400;
+  font-size: 0.625rem;
+  text-align: center;
+  color: #737373;
+}
+
+[class*=__container] {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.form-title-2,
+.form-title-3,
+.form-title-4 {
+  display: none;
+}
+
+.wrapper {
+  box-shadow: 0 0.25rem 15.625rem 0 #000;
+}
+
+body:has(div[data-step-mobile="2"][style*="display: block"]) .form-title {
+  display: none;
+}
+
+body:has(div[data-step-mobile="2"][style*="display: block"]) .form-title-2 {
+  display: block;
+}
+
+div[data-step-mobile="2"][style*="display: block"] .form-label {
+  margin-block-end: 2.5rem;
+}
+
+body:has(div[data-step-mobile="3"][style*="display: block"]) .form-title-3 {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 127%;
+}
+
+body:has(div[data-step-mobile="3"][style*="display: block"]) .form-title-2 {
+  display: none;
+}
+
+body:has(div[data-step-mobile="3"][style*="display: block"]) .form-title {
+  display: none;
+}
+
+body:has(div[data-step-mobile="4"][style*="display: block"]) .form-title {
+  display: none;
+}
+
+body:has(div[data-step-mobile="4"][style*="display: block"]) .form-title-4 {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 127%;
+}
+
+div[data-step-mobile="4"] .form-label {
+  text-align: left;
+}
+
+div[data-step-mobile="1"] .form-label {
+  text-align: left;
 }

@@ -11,11 +11,11 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
 		<meta name="apple-mobile-web-app-title" content="MyWebSite">
 		<link rel="manifest" href="./assets/img/favicons/site.webmanifest">
-		<script type="module" crossorigin="" src="./js/quote.min.js?v=1765583513946"></script>
-		<link rel="modulepreload" crossorigin="" href="./js/common.min.js?v=1765583513946">
-		<link rel="modulepreload" crossorigin="" href="./js/index.min2.js?v=1765583513946">
-		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765583513946">
-		<link rel="stylesheet" crossorigin="" href="./css/quote.min.css?v=1765583513946">
+		<script type="module" crossorigin="" src="./js/quote.min.js?v=1765588173554"></script>
+		<link rel="modulepreload" crossorigin="" href="./js/common.min.js?v=1765588173554">
+		<link rel="modulepreload" crossorigin="" href="./js/index.min2.js?v=1765588173554">
+		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765588173554">
+		<link rel="stylesheet" crossorigin="" href="./css/quote.min.css?v=1765588173554">
 		<link rel="preload" as="style" href="./css/webfonts.min.css">
 		<link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="./css/webfonts.min.css">
 	</head>
@@ -53,7 +53,10 @@
 						</div>
 						<form action="php/sendmail" method="POST" class="quote-form multi-step-form" data-fls-form="ajax">
 							<h2 class="form-title">Get Your Locked-In Price</h2>
-							<button type="button" class="btn-back" style="display: none;">← Back</button>
+							<h2 class="form-title-2">When do you plan to move?</h2>
+							<h2 class="form-title-3">How big (or small) of a move are we talking about?</h2>
+							<h2 class="form-title-4">Please provide your contact information</h2>
+							<button type="button" class="btn-back --icon-success" style="display: none;">Back</button>
 							<!-- Шаг 1: ZIP коды (мобилка шаг 1) -->
 							<div class="form-step" data-step-mobile="1">
 								<div class="form-group">
@@ -68,8 +71,11 @@
 							<!-- Шаг 2: Moving Date (мобилка шаг 2) -->
 							<div class="form-step" data-step-mobile="2" style="display: none;">
 								<div class="form-group">
-									<label for="moving-date" class="form-label">Moving date</label>
-									<input type="text" id="moving-date" name="moving_date" class="form-input" data-fls-datepicker="" placeholder="Select Move Date" required>
+									<label for="moving-date" class="form-label">
+										Moving date
+										<span class="--icon-success"></span>
+									</label>
+									<input type="text" id="moving-date" name="moving_date" class="form-input" data-fls-datepicker="" placeholder="DD/MM/YYYY" required>
 								</div>
 							</div>
 							<!-- Шаг 3: Home Size (мобилка шаг 3) -->
