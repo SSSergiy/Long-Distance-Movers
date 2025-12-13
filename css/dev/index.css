@@ -805,13 +805,12 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   display: block !important;
 }
 
-.hero-section__form-point.form-point.quote-card:has(div[data-step-desktop="2"]) .form-footer-text {
-  display: none;
-}
-
 .hero-section__form-point.form-point.quote-card:has(div[data-step-desktop="2"]) label {
   font-weight: 600;
   font-size: 0.9375rem;
+}
+.hero-section__form-point.form-point.quote-card:has(div[data-step-desktop="2"]) .form-footer-text {
+  display: none;
 }
 
 .hero-section__form-point:has(div[data-step-desktop="2"]) {
@@ -819,26 +818,22 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   padding-inline-start: 5.25rem;
   padding-inline-end: 7.5rem;
 }
-
 .hero-section__form-point:has(div[data-step-desktop="2"]) .btn-back {
   padding-inline-start: 3.125rem;
   padding-block-end: 0.625rem;
   line-height: 143%;
 }
-
 .hero-section__form-point:has(div[data-step-desktop="2"]) .--form-error {
   flex-wrap: wrap;
 }
-
 .hero-section__form-point:has(div[data-step-desktop="2"]) div[data-date-error],
-div[data-select-error],
-div[data-name-error],
-div[data-phone-error],
-div[data-email-error] {
+.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-select-error],
+.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-name-error],
+.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-phone-error],
+.hero-section__form-point:has(div[data-step-desktop="2"]) div[data-email-error] {
   padding-inline-start: 25%;
 }
-
-.form-group.step-two .form-input-wrapper {
+.hero-section__form-point:has(div[data-step-desktop="2"]) .form-group.step-two .form-input-wrapper {
   position: relative;
 }
 
@@ -914,8 +909,9 @@ div[data-email-error] {
   }
   .hero-section__info h2 {
     font-weight: 800;
-    line-height: 155%;
+    line-height: 117%;
     color: #000000;
+    margin-block-end: 0rem;
   }
   .hero-section__info h2 svg {
     vertical-align: -0.15em;
@@ -957,6 +953,7 @@ div[data-email-error] {
   }
   .hero-section__button {
     margin: 0 auto;
+    margin-block-end: 2.9375rem;
     display: flex;
     font-size: 1.25rem;
     letter-spacing: -0.01em;
@@ -1001,21 +998,32 @@ div[data-email-error] {
     line-height: 175%;
   }
   .why-choose-us h3 {
-    line-height: 218%;
+    line-height: 151%;
     font-family: "Montserrat";
+    margin-block-end: 0.9375rem;
   }
   .why-choose-us p {
     font-size: 0.9375rem;
     font-family: "Montserrat";
+    line-height: 135%;
   }
   .why-choose-us .features-list {
     justify-content: center;
+    gap: 2.1875rem;
   }
   .why-choose-us .content-container {
+    padding-block-start: 0.625rem;
     box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.25), 0 0.25rem 0 0 rgba(0, 0, 0, 0);
+    border-radius: 0.4375rem;
   }
   .why-choose-us .content-container::before {
     display: none;
+  }
+  .reviews-section {
+    padding-block-start: 0.9375rem;
+  }
+  .reviews-section__header h2 {
+    line-height: 175%;
   }
   .reviews-list__item {
     box-shadow: none;
@@ -1034,9 +1042,16 @@ div[data-email-error] {
     border-bottom-right-radius: 1rem;
     transform: translateZ(-0.0625rem);
   }
+  .review-card {
+    gap: 1.375rem;
+  }
   .review-card__text {
     line-height: 209%;
     margin-block-start: -0.5rem;
+  }
+  .review-card__author img {
+    width: 2.5rem;
+    height: 2.5rem;
   }
   .star-icon--icon-star {
     font-size: 0.9375rem;
@@ -1150,7 +1165,7 @@ div[data-email-error] {
     font-size: 0.875rem;
   }
   .hero-section {
-    padding-block-start: 1.875rem;
+    padding-block-start: 2.1875rem;
   }
   .hero-section {
     padding-block-end: 2.25rem;
@@ -1224,7 +1239,7 @@ div[data-email-error] {
     padding-block: 0.625rem;
   }
   .why-choose-us {
-    padding-block-start: 2.1875rem;
+    padding-block-start: 1.4375rem;
   }
   .why-choose-us {
     padding-block-end: 2.9375rem;
@@ -1233,10 +1248,10 @@ div[data-email-error] {
     font-size: 1.25rem;
   }
   .why-choose-us h2 {
-    margin-block-end: 2.5rem;
+    margin-block-end: 1.875rem;
   }
   .why-choose-us h3 {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
   .why-choose-us .image-container {
     height: 14.9375rem;
@@ -1251,7 +1266,7 @@ div[data-email-error] {
     padding-block: 1.3125rem;
   }
   .reviews-section__container {
-    gap: 2.75rem;
+    gap: 1.9375rem;
   }
   .reviews-section__header h2 {
     font-size: 1.25rem;
@@ -1377,7 +1392,7 @@ div[data-email-error] {
     font-size: clamp( 0.875rem , 0.76689189189375rem  +  0.5405405405vw , 1.25rem );
   }
   .hero-section {
-    padding-block-start: clamp( 1.125rem , 2.09121621621875rem  +  -1.0810810811vw , 1.875rem );
+    padding-block-start: clamp( 1.125rem , 2.49380630630625rem  +  -1.5315315315vw , 2.1875rem );
   }
   .hero-section {
     padding-block-end: clamp( 2.25rem , 2.10585585585625rem  +  0.7207207207vw , 2.75rem );
@@ -1451,7 +1466,7 @@ div[data-email-error] {
     padding-block: clamp( 0.625rem , 0.5889639639625rem  +  0.1801801802vw , 0.75rem );
   }
   .why-choose-us {
-    padding-block-start: clamp( 2.1875rem , 1.88119369369375rem  +  1.5315315315vw , 3.25rem );
+    padding-block-start: clamp( 1.4375rem , 0.914977477475rem  +  2.6126126126vw , 3.25rem );
   }
   .why-choose-us {
     padding-block-end: clamp( 6.25e-8rem , 3.78434682883125rem  +  -4.2342341441vw , 2.9375rem );
@@ -1460,10 +1475,10 @@ div[data-email-error] {
     font-size: clamp( 1.25rem , 0.74549549549375rem  +  2.5225225225vw , 3rem );
   }
   .why-choose-us h2 {
-    margin-block-end: clamp( 2.5rem , 1.6891891891875rem  +  4.0540540541vw , 5.3125rem );
+    margin-block-end: clamp( 1.875rem , 0.88400900900625rem  +  4.954954955vw , 5.3125rem );
   }
   .why-choose-us h3 {
-    font-size: clamp( 1.125rem , 0.87274774775rem  +  1.2612612613vw , 2rem );
+    font-size: clamp( 1rem , 0.7117117117125rem  +  1.4414414414vw , 2rem );
   }
   .why-choose-us .image-container {
     height: clamp( 14.9375rem , 12.9014639639625rem  +  10.1801801802vw , 22rem );
@@ -1478,7 +1493,7 @@ div[data-email-error] {
     padding-block: clamp( 1.25rem , 1.33051801801875rem  +  -0.0900900901vw , 1.3125rem );
   }
   .reviews-section__container {
-    gap: clamp( 2.75rem , 2.2094594594625rem  +  2.7027027027vw , 4.625rem );
+    gap: clamp( 1.9375rem , 1.162725225225rem  +  3.8738738739vw , 4.625rem );
   }
   .reviews-section__header h2 {
     font-size: clamp( 1.25rem , 0.74549549549375rem  +  2.5225225225vw , 3rem );
