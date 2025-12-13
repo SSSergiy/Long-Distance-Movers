@@ -87,46 +87,40 @@ window.addEventListener("load", () => {
         formGroup.classList.add("--form-success");
       }
       return true;
-    }, validateHomeSize = function(select) {
-      if (!select) return false;
-      const value = select.value ? select.value.trim() : "";
-      const formGroup = select.closest(".form-group");
-      const customSelect = formGroup?.querySelector(".select");
-      const selectTitle = customSelect?.querySelector(".select__title");
-      const existingError = formGroup?.querySelector("[data-select-error]");
-      if (existingError) {
-        existingError.remove();
-      }
-      if (selectTitle) {
-        selectTitle.classList.remove("--form-error", "--form-success");
-      }
-      if (customSelect) {
-        customSelect.classList.remove("--form-error", "--form-success");
-      }
-      if (formGroup) {
-        formGroup.classList.remove("--form-error", "--form-success");
-      }
-      if (value === "" || value === null || !value) {
-        if (selectTitle) {
-          selectTitle.classList.add("--form-error");
+    }, validateHomeSize = function() {
+      const formGroup = form.querySelector(".home-size-options");
+      if (!formGroup) return false;
+      const selectedRadio = Array.from(homeSizeRadios).find((radio) => radio.checked);
+      const errorElement = formGroup.querySelector("[data-select-error]");
+      formGroup.classList.remove("--form-error", "--form-success");
+      homeSizeRadios.forEach((radio) => {
+        const option = radio.closest(".home-size-option");
+        if (option) {
+          option.classList.remove("--form-error", "--form-success");
         }
-        if (customSelect) {
-          customSelect.classList.add("--form-error");
-        }
-        if (formGroup) {
-          formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-select-error>Please select a home size</div>");
+      });
+      if (errorElement) {
+        errorElement.style.display = "none";
+        errorElement.textContent = "";
+      }
+      if (!selectedRadio || !selectedRadio.value) {
+        formGroup.classList.add("--form-error");
+        homeSizeRadios.forEach((radio) => {
+          const option = radio.closest(".home-size-option");
+          if (option) {
+            option.classList.add("--form-error");
+          }
+        });
+        if (errorElement) {
+          errorElement.textContent = "Please select a home size";
+          errorElement.style.display = "block";
         }
         return false;
       }
-      if (selectTitle) {
-        selectTitle.classList.add("--form-success");
-      }
-      if (customSelect) {
-        customSelect.classList.add("--form-success");
-      }
-      if (formGroup) {
-        formGroup.classList.add("--form-success");
+      formGroup.classList.add("--form-success");
+      const selectedOption = selectedRadio.closest(".home-size-option");
+      if (selectedOption) {
+        selectedOption.classList.add("--form-success");
       }
       return true;
     }, restrictNameInput = function(input) {
@@ -321,48 +315,13 @@ window.addEventListener("load", () => {
         }
       }, 300);
     }
-    const homeSizeSelect = form.querySelector('select[name="home_size"]') || form.querySelector("#home-size");
-    if (homeSizeSelect) {
-      let setupSelectValidation = function() {
-        const formGroup = homeSizeSelect?.closest(".form-group");
-        const customSelect = formGroup?.querySelector(".select");
-        if (customSelect) {
-          const selectOptions = customSelect.querySelectorAll(".select__option");
-          selectOptions.forEach((option) => {
-            option.removeEventListener("click", handleOptionClick);
-            option.addEventListener("click", handleOptionClick);
-          });
-        } else {
-          setTimeout(setupSelectValidation, 100);
-        }
-      }, handleOptionClick = function() {
-        setTimeout(() => {
-          validateHomeSize(homeSizeSelect);
-        }, 150);
-      };
-      homeSizeSelect.addEventListener("change", () => {
-        validateHomeSize(homeSizeSelect);
-      });
-      setupSelectValidation();
-      homeSizeSelect.addEventListener("blur", () => {
-        validateHomeSize(homeSizeSelect);
-      });
-      setInterval(() => {
-        if (homeSizeSelect.value && homeSizeSelect.value.trim() !== "") {
-          validateHomeSize(homeSizeSelect);
-        }
-      }, 300);
-      const selectContent = form.querySelector(".select__content");
-      if (selectContent) {
-        const observer = new MutationObserver(() => {
-          validateHomeSize(homeSizeSelect);
+    const homeSizeRadios = form.querySelectorAll('input[name="home_size"][type="radio"]');
+    if (homeSizeRadios.length > 0) {
+      homeSizeRadios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          validateHomeSize();
         });
-        observer.observe(selectContent, {
-          childList: true,
-          characterData: true,
-          subtree: true
-        });
-      }
+      });
     }
     const fullNameInput = form.querySelector("#full-name");
     if (fullNameInput) {
@@ -408,7 +367,7 @@ window.addEventListener("load", () => {
       zipFromInput,
       zipToInput,
       movingDateInput,
-      homeSizeSelect,
+      homeSizeRadios,
       fullNameInput,
       phoneInput,
       emailInput

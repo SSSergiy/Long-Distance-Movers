@@ -11,11 +11,11 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
 		<meta name="apple-mobile-web-app-title" content="MyWebSite">
 		<link rel="manifest" href="./assets/img/favicons/site.webmanifest">
-		<script type="module" crossorigin="" src="./js/quote.min.js?v=1765588173554"></script>
-		<link rel="modulepreload" crossorigin="" href="./js/common.min.js?v=1765588173554">
-		<link rel="modulepreload" crossorigin="" href="./js/index.min2.js?v=1765588173554">
-		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765588173554">
-		<link rel="stylesheet" crossorigin="" href="./css/quote.min.css?v=1765588173554">
+		<script type="module" crossorigin="" src="./js/quote.min.js?v=1765643881416"></script>
+		<link rel="modulepreload" crossorigin="" href="./js/common.min.js?v=1765643881416">
+		<link rel="modulepreload" crossorigin="" href="./js/index.min2.js?v=1765643881416">
+		<link rel="stylesheet" crossorigin="" href="./css/index.min2.css?v=1765643881416">
+		<link rel="stylesheet" crossorigin="" href="./css/quote.min.css?v=1765643881416">
 		<link rel="preload" as="style" href="./css/webfonts.min.css">
 		<link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="./css/webfonts.min.css">
 	</head>
@@ -80,17 +80,34 @@
 							</div>
 							<!-- Шаг 3: Home Size (мобилка шаг 3) -->
 							<div class="form-step" data-step-mobile="3" style="display: none;">
-								<div class="form-group">
-									<label for="home-size" class="form-label">Home Size</label>
-									<select data-fls-select="" name="home_size" id="home-size" class="form-input" required>
-										<option value="" data-fls-select-show="">Select Size</option>
-										<option value="1-bedroom">1 Bedroom</option>
-										<option value="2-bedroom">2 Bedroom</option>
-										<option value="3-bedroom">3 Bedroom</option>
-										<option value="4-bedroom">4 Bedroom</option>
-										<option value="5-bedroom">5+ Bedroom</option>
-										<option value="other">Other</option>
-									</select>
+								<div class="form-group home-size-options">
+									<div class="home-size-grid">
+										<label class="home-size-option">
+											<input type="radio" name="home_size" value="1-bedroom" required>
+											<span class="home-size-text">1 Bedroom</span>
+										</label>
+										<label class="home-size-option">
+											<input type="radio" name="home_size" value="2-bedroom" required>
+											<span class="home-size-text">2 Bedroom</span>
+										</label>
+										<label class="home-size-option">
+											<input type="radio" name="home_size" value="3-bedroom" required>
+											<span class="home-size-text">3 Bedroom</span>
+										</label>
+										<label class="home-size-option">
+											<input type="radio" name="home_size" value="4-bedroom" required>
+											<span class="home-size-text">4 Bedroom</span>
+										</label>
+										<label class="home-size-option">
+											<input type="radio" name="home_size" value="5-bedroom" required>
+											<span class="home-size-text">5+ Bedroom</span>
+										</label>
+										<label class="home-size-option">
+											<input type="radio" name="home_size" value="office" required>
+											<span class="home-size-text">Office</span>
+										</label>
+									</div>
+									<div data-select-error="" style="display: none;"></div>
 								</div>
 							</div>
 							<!-- Шаг 4: Контакты (мобилка шаг 4) -->
