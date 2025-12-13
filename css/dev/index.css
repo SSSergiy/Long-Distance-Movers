@@ -224,7 +224,7 @@
   justify-content: space-between;
 }
 .hero-section__info {
-  width: 52%;
+  width: 53%;
   color: #ffffff;
 }
 .hero-section__info h2 {
@@ -1466,7 +1466,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     padding-block-end: clamp( 0.625rem , 1.188626126125rem  +  -0.6306306306vw , 1.0625rem );
   }
   .hero-section__info {
-    padding-inline-end: clamp( 6.25e-8rem , -0.57657649605625rem  +  2.8828827928vw , 2rem );
+    padding-inline-end: clamp( 6.25e-8rem , -0.45045036993125rem  +  2.2522521622vw , 1.5625rem );
   }
   .hero-section__info h2 {
     font-size: clamp( 1.75rem , 1.53378378378125rem  +  1.0810810811vw , 2.5rem );
@@ -1693,7 +1693,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     padding-block-end: 0.625rem;
   }
   .hero-section__info {
-    padding-inline-end: 2rem;
+    padding-inline-end: 1.5625rem;
   }
   .hero-section__info h2 {
     font-size: 2.5rem;
