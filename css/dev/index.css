@@ -856,6 +856,14 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
 }
 
 @media (width <= 81.25em) {
+  .hero-section__form-point:has(div[data-step-desktop="1"][style*="display: block"]) {
+    padding-inline-start: 0.9375rem;
+    padding-inline-end: 0.9375rem;
+  }
+  .hero-section__form-point:has(div[data-step-desktop="3"][style*="display: block"]) {
+    padding-inline-start: 0.9375rem;
+    padding-inline-end: 0.9375rem;
+  }
   .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) {
     padding-inline-start: 0.9375rem;
     padding-inline-end: 0.9375rem;
@@ -875,6 +883,9 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   }
   .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .step-two :nth-child(2) {
     width: 100%;
+  }
+  .hero-section__form-point:has(div[data-step-desktop="2"][style*="display: block"]) .form-input-icon.--icon-success {
+    right: -94%;
   }
 }
 
