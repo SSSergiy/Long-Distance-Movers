@@ -372,6 +372,27 @@ window.addEventListener("load", () => {
       phoneInput,
       emailInput
     };
+    const btnNext = form.querySelector(".btn-next");
+    const btnSubmit = form.querySelector(".btn-submit");
+    if (btnNext && btnSubmit) {
+      btnNext.onclick;
+      btnNext.addEventListener("click", function(e) {
+        const step4 = form.querySelector('div[data-step-mobile="4"]');
+        if (step4 && (step4.style.display === "block" || step4.style.display === "")) {
+          const nameValid = validateFullName(fullNameInput);
+          const phoneValid = validatePhone(phoneInput);
+          const emailValid = validateEmail(emailInput);
+          if (nameValid && phoneValid && emailValid) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (btnSubmit) {
+              btnSubmit.click();
+            }
+            return false;
+          }
+        }
+      }, true);
+    }
   }
   if (form) {
     let redirectToHome = function() {
@@ -383,15 +404,75 @@ window.addEventListener("load", () => {
       }
       redirectTimeout = setTimeout(() => {
         window.location.href = "index.html";
-      }, 1e3);
+      }, 2e3);
+    }, handleStep5Display = function() {
+      const step5 = form.querySelector('div[data-step-mobile="5"]');
+      const formNavigation = form.querySelector(".form-navigation");
+      const btnBack = form.querySelector(".btn-back");
+      if (step5) {
+        step5Observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === "attributes" && mutation.attributeName === "style") {
+              const isVisible = step5.style.display === "block" || step5.style.display === "";
+              if (isVisible && !redirectDone) {
+                if (formNavigation) {
+                  formNavigation.style.display = "none";
+                }
+                if (btnBack) {
+                  btnBack.style.display = "none";
+                }
+                const footerText = document.querySelector(".form-footer-text");
+                if (footerText) {
+                  footerText.style.display = "block";
+                }
+                setTimeout(() => {
+                  redirectToHome();
+                }, 2e3);
+              }
+            }
+          });
+        });
+        step5Observer.observe(step5, {
+          attributes: true,
+          attributeFilter: ["style"]
+        });
+        if (step5.style.display === "block" || step5.style.display === "") {
+          if (formNavigation) {
+            formNavigation.style.display = "none";
+          }
+          if (btnBack) {
+            btnBack.style.display = "none";
+          }
+          const footerText = document.querySelector(".form-footer-text");
+          if (footerText) {
+            footerText.style.display = "block";
+          }
+          setTimeout(() => {
+            redirectToHome();
+          }, 2e3);
+        }
+      }
     };
     let wasSending = false;
     let redirectTimeout = null;
     let redirectDone = false;
+    let step5Observer = null;
+    handleStep5Display();
     const handleFormSent = (e) => {
       console.log("formSent event received (success)", e);
       if (!e.detail || e.detail.form === form) {
-        redirectToHome();
+        const step5 = form.querySelector('div[data-step-mobile="5"]');
+        const step4 = form.querySelector('div[data-step-mobile="4"]');
+        if (step5 && step4) {
+          step4.style.display = "none";
+          step5.style.display = "block";
+          const progressFill = document.querySelector(".progress-fill");
+          const progressPercent = document.querySelector(".progress-percent");
+          if (progressFill && progressPercent) {
+            progressFill.style.width = "100%";
+            progressPercent.textContent = "100%";
+          }
+        }
       }
     };
     document.addEventListener("formSent", handleFormSent, { once: false });

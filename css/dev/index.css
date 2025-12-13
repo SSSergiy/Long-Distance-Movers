@@ -601,6 +601,7 @@
 }
 
 .review-card {
+  height: 100%;
   display: flex;
   gap: 2.75rem;
 }
@@ -619,6 +620,9 @@
 }
 .review-card__text {
   line-height: 113%;
+}
+.review-card__author {
+  margin-top: auto;
 }
 .review-card__author img {
   object-fit: cover;
