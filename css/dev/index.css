@@ -837,6 +837,10 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   position: relative;
 }
 
+.cta__contact-text {
+  line-height: 146%;
+}
+
 .form-input-icon.--icon-success {
   position: absolute;
   top: 75%;
@@ -882,6 +886,10 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
 }
 
 @media (width <= 40.6875em) {
+  .process-section {
+    padding-block-start: 2.8125rem;
+    padding-block-end: 3.1875rem;
+  }
   .process-section .highlight-text {
     color: #000000;
     line-height: 175%;
@@ -889,8 +897,17 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   .process-section .sub-title {
     display: none;
   }
+  .process-section .steps-grid {
+    row-gap: 2.75rem;
+  }
   .process-section .step-card {
     background-color: #f7f7f7;
+  }
+  .process-section .step-title {
+    margin: 0 0 1.3125rem 0;
+  }
+  .process-section .step-description {
+    line-height: 183%;
   }
   .process-section .process-section .sub-title {
     display: none;
@@ -1021,6 +1038,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   }
   .reviews-section {
     padding-block-start: 0.9375rem;
+    padding-block-end: 1.75rem;
   }
   .reviews-section__header h2 {
     line-height: 175%;
@@ -1073,6 +1091,9 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     line-height: 233%;
     font-size: 0.6875rem;
   }
+  .service-area__media img {
+    min-height: 14.3125rem;
+  }
   .service-area__media {
     order: -1;
   }
@@ -1106,6 +1127,15 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
   .trust-badges {
     flex-direction: column;
   }
+  .trust-badges__item {
+    gap: 0rem;
+  }
+  .trust-badges__item img {
+    max-width: 18%;
+  }
+  .trust-badges__item span {
+    font-size: 0.9375rem;
+  }
   .trust-badges__item:nth-child(2) {
     flex-direction: column;
     order: -1;
@@ -1135,7 +1165,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
 
 @media (width <= 20em) {
   .process-section .section-header {
-    margin-block-end: 1.25rem;
+    margin-block-end: 2.125rem;
   }
   .process-section .main-title {
     font-size: 1.25rem;
@@ -1266,7 +1296,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     padding-block: 1.3125rem;
   }
   .reviews-section__container {
-    gap: 1.9375rem;
+    gap: 2.5rem;
   }
   .reviews-section__header h2 {
     font-size: 1.25rem;
@@ -1293,7 +1323,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     font-size: 0.75rem;
   }
   .trust-badges {
-    gap: 1rem;
+    gap: 1.875rem;
   }
   .service-area {
     padding-block-end: 1.625rem;
@@ -1305,10 +1335,10 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     font-size: 1.25rem;
   }
   .service-area__title {
-    margin-block-end: 1.25rem;
+    margin-block-end: 1.1875rem;
   }
   .service-area__content {
-    gap: 1.875rem;
+    gap: 1.4375rem;
   }
   .service-area__description {
     font-size: 0.9375rem;
@@ -1362,7 +1392,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
 
 @media (width > 20em) and (width <= 89.375em) {
   .process-section .section-header {
-    margin-block-end: clamp( 1.25rem , 0.7094594594625rem  +  2.7027027027vw , 3.125rem );
+    margin-block-end: clamp( 2.125rem , 1.8367117117125rem  +  1.4414414414vw , 3.125rem );
   }
   .process-section .main-title {
     font-size: clamp( 1.25rem , 0.74549549549375rem  +  2.5225225225vw , 3rem );
@@ -1493,7 +1523,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     padding-block: clamp( 1.25rem , 1.33051801801875rem  +  -0.0900900901vw , 1.3125rem );
   }
   .reviews-section__container {
-    gap: clamp( 1.9375rem , 1.162725225225rem  +  3.8738738739vw , 4.625rem );
+    gap: clamp( 2.5rem , 1.8873873873875rem  +  3.0630630631vw , 4.625rem );
   }
   .reviews-section__header h2 {
     font-size: clamp( 1.25rem , 0.74549549549375rem  +  2.5225225225vw , 3rem );
@@ -1520,7 +1550,7 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     font-size: clamp( 0.75rem , 0.677927927925rem  +  0.3603603604vw , 1rem );
   }
   .trust-badges {
-    gap: clamp( 1rem , -0.98198198198125rem  +  9.9099099099vw , 7.875rem );
+    gap: clamp( 1.875rem , 0.14527027026875rem  +  8.6486486486vw , 7.875rem );
   }
   .service-area {
     padding-block-end: clamp( 1.0625rem , 1.7871621621625rem  +  -0.8108108108vw , 1.625rem );
@@ -1532,10 +1562,10 @@ form:has(div[data-step-desktop="2"][style*="display: block"]) .btn-next {
     font-size: clamp( 1.25rem , 0.74549549549375rem  +  2.5225225225vw , 3rem );
   }
   .service-area__title {
-    margin-block-end: clamp( 1.25rem , 0.3490990991rem  +  4.5045045045vw , 4.375rem );
+    margin-block-end: clamp( 1.1875rem , 0.26858108108125rem  +  4.5945945946vw , 4.375rem );
   }
   .service-area__content {
-    gap: clamp( 1.875rem , 1.69481981981875rem  +  0.9009009009vw , 2.5rem );
+    gap: clamp( 1.4375rem , 1.13119369369375rem  +  1.5315315315vw , 2.5rem );
   }
   .service-area__description {
     font-size: clamp( 0.9375rem , 0.66722972973125rem  +  1.3513513514vw , 1.875rem );
