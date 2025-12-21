@@ -1,5 +1,15 @@
 import { i as initMultiStepForm } from "./index.min2.js";
 import "./common.min.js";
+function setFormError(formGroup, errorSelector, errorText) {
+  if (!formGroup) return;
+  const errorAttr = errorSelector.replace(/[\[\]]/g, "");
+  let errorElement = formGroup.querySelector(errorSelector);
+  if (errorElement) {
+    errorElement.textContent = errorText;
+  } else {
+    formGroup.insertAdjacentHTML("beforeend", `<div ${errorAttr}>${errorText}</div>`);
+  }
+}
 window.addEventListener("load", () => {
   initMultiStepForm();
   const form = document.querySelector(".multi-step-form");
@@ -8,10 +18,6 @@ window.addEventListener("load", () => {
       if (!input) return false;
       const value = input.value.trim();
       const formGroup = input.closest(".form-group");
-      const existingError = formGroup?.querySelector("[data-zip-error]");
-      if (existingError) {
-        existingError.remove();
-      }
       input.classList.remove("--form-error", "--form-success");
       if (formGroup) {
         formGroup.classList.remove("--form-error", "--form-success");
@@ -20,7 +26,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-zip-error>Zip code field can not be empty</div>");
+          setFormError(formGroup, "[data-zip-error]", "Zip code field can not be empty");
         }
         return false;
       }
@@ -28,7 +34,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-zip-error>Wrong zip code format</div>");
+          setFormError(formGroup, "[data-zip-error]", "Wrong zip code format");
         }
         return false;
       }
@@ -66,10 +72,6 @@ window.addEventListener("load", () => {
       if (!input) return false;
       const value = input.value.trim();
       const formGroup = input.closest(".form-group");
-      const existingError = formGroup?.querySelector("[data-date-error]");
-      if (existingError) {
-        existingError.remove();
-      }
       input.classList.remove("--form-error", "--form-success");
       if (formGroup) {
         formGroup.classList.remove("--form-error", "--form-success");
@@ -78,7 +80,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-date-error>Please select a moving date</div>");
+          setFormError(formGroup, "[data-date-error]", "Please select a moving date");
         }
         return false;
       }
@@ -147,10 +149,6 @@ window.addEventListener("load", () => {
       if (!input) return false;
       const value = input.value.trim();
       const formGroup = input.closest(".form-group");
-      const existingError = formGroup?.querySelector("[data-name-error]");
-      if (existingError) {
-        existingError.remove();
-      }
       input.classList.remove("--form-error", "--form-success");
       if (formGroup) {
         formGroup.classList.remove("--form-error", "--form-success");
@@ -159,7 +157,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Full name field can not be empty</div>");
+          setFormError(formGroup, "[data-name-error]", "Full name field can not be empty");
         }
         return false;
       }
@@ -168,7 +166,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Please enter first and last name</div>");
+          setFormError(formGroup, "[data-name-error]", "Please enter first and last name");
         }
         return false;
       }
@@ -177,7 +175,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>First name must contain at least 3 letters</div>");
+          setFormError(formGroup, "[data-name-error]", "First name must contain at least 3 letters");
         }
         return false;
       }
@@ -186,7 +184,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Last name must contain at least 3 letters</div>");
+          setFormError(formGroup, "[data-name-error]", "Last name must contain at least 3 letters");
         }
         return false;
       }
@@ -199,10 +197,6 @@ window.addEventListener("load", () => {
       if (!input) return false;
       const value = input.value.trim();
       const formGroup = input.closest(".form-group");
-      const existingError = formGroup?.querySelector("[data-phone-error]");
-      if (existingError) {
-        existingError.remove();
-      }
       input.classList.remove("--form-error", "--form-success");
       if (formGroup) {
         formGroup.classList.remove("--form-error", "--form-success");
@@ -211,7 +205,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Phone field can not be empty</div>");
+          setFormError(formGroup, "[data-phone-error]", "Phone field can not be empty");
         }
         return false;
       }
@@ -220,7 +214,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Wrong phone number format</div>");
+          setFormError(formGroup, "[data-phone-error]", "Wrong phone number format");
         }
         return false;
       }
@@ -228,7 +222,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Please enter a complete phone number</div>");
+          setFormError(formGroup, "[data-phone-error]", "Please enter a complete phone number");
         }
         return false;
       }
@@ -237,7 +231,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Wrong phone number format</div>");
+          setFormError(formGroup, "[data-phone-error]", "Wrong phone number format");
         }
         return false;
       }
@@ -250,10 +244,6 @@ window.addEventListener("load", () => {
       if (!input) return false;
       const value = input.value.trim();
       const formGroup = input.closest(".form-group");
-      const existingError = formGroup?.querySelector("[data-email-error]");
-      if (existingError) {
-        existingError.remove();
-      }
       input.classList.remove("--form-error", "--form-success");
       if (formGroup) {
         formGroup.classList.remove("--form-error", "--form-success");
@@ -262,7 +252,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Email field can not be empty</div>");
+          setFormError(formGroup, "[data-email-error]", "Email field can not be empty");
         }
         return false;
       }
@@ -271,7 +261,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Wrong email format</div>");
+          setFormError(formGroup, "[data-email-error]", "Wrong email format");
         }
         return false;
       }
@@ -280,7 +270,7 @@ window.addEventListener("load", () => {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Wrong email format</div>");
+          setFormError(formGroup, "[data-email-error]", "Wrong email format");
         }
         return false;
       }
@@ -398,12 +388,13 @@ window.addEventListener("load", () => {
     let redirectToHome = function() {
       if (redirectDone) return;
       redirectDone = true;
-      console.log("Redirecting to index.html...");
+      const redirectUrl = form.dataset.redirectUrl || "index.html";
+      console.log("Redirecting to " + redirectUrl + "...");
       if (redirectTimeout) {
         clearTimeout(redirectTimeout);
       }
       redirectTimeout = setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = redirectUrl;
       }, 2e3);
     }, handleStep5Display = function() {
       const step5 = form.querySelector('div[data-step-mobile="5"]');

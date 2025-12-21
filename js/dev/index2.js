@@ -2885,7 +2885,11 @@ function formInit() {
   formSubmit();
   formFieldsInit();
 }
-document.querySelector("[data-fls-form]") ? window.addEventListener("load", formInit) : null;
+window.addEventListener("load", () => {
+  if (document.querySelector("[data-fls-form]")) {
+    formInit();
+  }
+});
 var datepicker_min = { exports: {} };
 var hasRequiredDatepicker_min;
 function requireDatepicker_min() {
@@ -3260,14 +3264,15 @@ function requireDatepicker_min() {
 var datepicker_minExports = requireDatepicker_min();
 const datepicker = /* @__PURE__ */ getDefaultExportFromCjs(datepicker_minExports);
 const ua = { "week": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"], "month": ["Січ", "Лют", "Берез", "Квіт", "Трав", "Черв", "Лип", "Серп", "Верес", "Жовт", "Листоп", "Груд"], "button": "Застосувати", "year": "Рік (4 цифри)" };
-const en = { "week": ["Md", "Tu", "Wn", "Th", "Fr", "St", "Sn"], "month": ["Jan", "Feb", "Mr", "Apr", "May", "Jun", "Jul", "Ags", "Sep", "Oct", "Nov", "Dec"], "button": "Apply", "year": "Year (4 digits)" };
+const en = { "week": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], "month": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], "button": "Apply", "year": "Year (4 digits)" };
 const langs = {
   ua,
   en
 };
 if (document.querySelector("[data-fls-datepicker]")) {
   const LANG = "en";
-  const datePicker = datepicker("[data-fls-datepicker]", {
+  const isDesktop = window.innerWidth > 651;
+  const commonOptions = {
     customDays: langs[LANG].week,
     customMonths: langs[LANG].month,
     overlayButton: langs[LANG].button,
@@ -3276,14 +3281,227 @@ if (document.querySelector("[data-fls-datepicker]")) {
     formatter: (input, date, instance) => {
       const value = date.toLocaleDateString();
       input.value = value;
-    },
-    onSelect: function(input, instance, date) {
     }
-  });
-  window.flsDatepicker = datePicker;
+  };
+  if (isDesktop) {
+    let syncCalendarsHeight = function() {
+      if (datePicker1?.calendarContainer && datePicker2?.calendarContainer) {
+        const firstContainer = datePicker1.calendarContainer;
+        const secondContainer = datePicker2.calendarContainer;
+        const firstHeight = firstContainer.offsetHeight || firstContainer.getBoundingClientRect().height;
+        const secondHeight = secondContainer.offsetHeight || secondContainer.getBoundingClientRect().height;
+        const maxHeight = Math.max(firstHeight, secondHeight);
+        firstContainer.style.height = maxHeight + "px";
+        secondContainer.style.height = maxHeight + "px";
+      }
+    }, adjustFirstCalendarPosition = function() {
+      if (datePicker1?.calendarContainer && datePicker2?.calendarContainer) {
+        const firstContainer = datePicker1.calendarContainer;
+        const secondContainer = datePicker2.calendarContainer;
+        const viewportWidth = window.innerWidth;
+        firstContainer.style.left = "-30%";
+        updateSecondCalendarPosition();
+        requestAnimationFrame(() => {
+          const secondRect = secondContainer.getBoundingClientRect();
+          const firstRect = firstContainer.getBoundingClientRect();
+          if (secondRect.right > viewportWidth - 10) {
+            const overflow = secondRect.right - viewportWidth + 10;
+            const firstWidth = firstRect.width;
+            const additionalOffsetPercent = overflow / firstWidth * 100;
+            const newOffsetPercent = -30 - additionalOffsetPercent;
+            firstContainer.style.left = newOffsetPercent + "%";
+            updateSecondCalendarPosition();
+            requestAnimationFrame(() => {
+              const finalSecondRect = secondContainer.getBoundingClientRect();
+              if (finalSecondRect.right > viewportWidth - 10) {
+                const finalOverflow = finalSecondRect.right - viewportWidth + 10;
+                const finalAdditionalOffset = finalOverflow / firstWidth * 100;
+                firstContainer.style.left = newOffsetPercent - finalAdditionalOffset + "%";
+                updateSecondCalendarPosition();
+              }
+            });
+          }
+        });
+      }
+    }, updateSecondCalendarPosition = function() {
+      if (datePicker1?.calendarContainer && datePicker2?.calendarContainer) {
+        const firstContainer = datePicker1.calendarContainer;
+        const secondContainer = datePicker2.calendarContainer;
+        const firstComputedStyle = window.getComputedStyle(firstContainer);
+        const firstRect = firstContainer.getBoundingClientRect();
+        if (firstComputedStyle.position === "fixed") {
+          secondContainer.style.position = "fixed";
+          secondContainer.style.left = firstRect.right + "px";
+          secondContainer.style.top = firstRect.top + "px";
+        } else {
+          secondContainer.style.position = "absolute";
+          const firstParent = firstContainer.offsetParent;
+          const secondParent = secondContainer.offsetParent;
+          if (firstParent && secondParent && firstParent === secondParent) {
+            const firstOffsetLeft = firstContainer.offsetLeft;
+            const firstOffsetTop = firstContainer.offsetTop;
+            secondContainer.style.left = firstOffsetLeft + firstContainer.offsetWidth + -5 + "px";
+            secondContainer.style.top = firstOffsetTop + -5 + "px";
+          } else {
+            secondContainer.style.position = "fixed";
+            secondContainer.style.left = firstRect.right + -5 + "px";
+            secondContainer.style.top = firstRect.top + -5 + "px";
+          }
+        }
+        secondContainer.style.zIndex = "9002";
+        syncCalendarsHeight();
+      }
+    }, schedulePositionUpdate = function() {
+      clearTimeout(positionUpdateTimer);
+      positionUpdateTimer = setTimeout(() => {
+        if (datePicker1?.calendarContainer && !datePicker1.calendarContainer.classList.contains("qs-hidden")) {
+          updateSecondCalendarPosition();
+          syncCalendarsHeight();
+        }
+      }, 10);
+    };
+    const mainInput = document.querySelector("[data-fls-datepicker]");
+    const dateState = {
+      selectedDate: null,
+      isRestoring: false,
+      // Флаг для предотвращения закрытия при восстановлении
+      setDate: function(date) {
+        this.selectedDate = date;
+        if (mainInput && date) {
+          mainInput.value = date.toLocaleDateString();
+        }
+      },
+      getDate: function() {
+        return this.selectedDate;
+      },
+      clearDate: function() {
+        this.selectedDate = null;
+      }
+    };
+    const secondInput = document.createElement("input");
+    secondInput.type = "text";
+    secondInput.style.position = "absolute";
+    secondInput.style.opacity = "0";
+    secondInput.style.pointerEvents = "none";
+    secondInput.style.width = "1px";
+    secondInput.style.height = "1px";
+    mainInput.parentElement.appendChild(secondInput);
+    let datePicker1, datePicker2;
+    datePicker1 = datepicker(mainInput, {
+      ...commonOptions,
+      id: 1,
+      // одинаковый id для связи
+      position: "bl",
+      // Позиция первого календаря: 'tr' (top-right), 'tl' (top-left), 'br' (bottom-right), 'bl' (bottom-left), 'c' (centered)
+      formatter: (input, date, instance) => {
+        dateState.setDate(date);
+        commonOptions.formatter(input, date, instance);
+        if (!dateState.isRestoring) {
+          setTimeout(() => {
+            if (datePicker1) datePicker1.hide();
+            if (datePicker2) datePicker2.hide();
+          }, 100);
+        }
+      },
+      onShow: function(instance) {
+        const savedDate = dateState.getDate();
+        if (savedDate) {
+          dateState.isRestoring = true;
+          datePicker1.setDate(savedDate, false);
+          setTimeout(() => {
+            dateState.isRestoring = false;
+          }, 200);
+        }
+        setTimeout(() => {
+          if (datePicker2) {
+            const currentYear = instance.currentYear || (/* @__PURE__ */ new Date()).getFullYear();
+            const currentMonth = instance.currentMonth !== void 0 ? instance.currentMonth : (/* @__PURE__ */ new Date()).getMonth();
+            const nextMonth = new Date(currentYear, currentMonth + 1, 1);
+            datePicker2.navigate(nextMonth, false);
+            if (savedDate) {
+              datePicker2.setDate(savedDate, false);
+            }
+            datePicker2.show();
+            updateSecondCalendarPosition();
+            setTimeout(() => {
+              adjustFirstCalendarPosition();
+            }, 100);
+            setTimeout(() => {
+              syncCalendarsHeight();
+            }, 50);
+          }
+        }, 0);
+      },
+      onHide: function(instance) {
+        if (datePicker2) {
+          datePicker2.hide();
+        }
+      },
+      onMonthChange: function(instance) {
+        if (datePicker2) {
+          const nextMonth = new Date(instance.currentYear, instance.currentMonth + 1, 1);
+          datePicker2.navigate(nextMonth, false);
+          setTimeout(() => {
+            updateSecondCalendarPosition();
+            syncCalendarsHeight();
+          }, 0);
+        }
+      }
+    });
+    datePicker2 = datepicker(secondInput, {
+      ...commonOptions,
+      id: 1,
+      // тот же id для связи
+      // Переопределяем formatter для записи в mainInput вместо secondInput
+      formatter: (input, date, instance) => {
+        dateState.setDate(date);
+        if (mainInput) {
+          mainInput.value = date.toLocaleDateString();
+        }
+        if (!dateState.isRestoring) {
+          setTimeout(() => {
+            if (datePicker1) datePicker1.hide();
+            if (datePicker2) datePicker2.hide();
+          }, 100);
+        }
+      },
+      onMonthChange: function(instance) {
+        if (datePicker1) {
+          const prevMonth = new Date(instance.currentYear, instance.currentMonth - 1, 1);
+          datePicker1.navigate(prevMonth, false);
+          setTimeout(() => {
+            syncCalendarsHeight();
+          }, 0);
+        }
+      }
+    });
+    const firstDate = datePicker1.currentYear && datePicker1.currentMonth !== void 0 ? new Date(datePicker1.currentYear, datePicker1.currentMonth + 1, 1) : new Date((/* @__PURE__ */ new Date()).getFullYear(), (/* @__PURE__ */ new Date()).getMonth() + 1, 1);
+    datePicker2.navigate(firstDate, false);
+    let positionUpdateTimer;
+    window.addEventListener("scroll", schedulePositionUpdate, true);
+    window.addEventListener("resize", schedulePositionUpdate);
+    window.flsDatepicker = datePicker1;
+  } else {
+    const datePicker = datepicker("[data-fls-datepicker]", {
+      ...commonOptions,
+      position: "c"
+      // Центрирование календаря
+    });
+    window.flsDatepicker = datePicker;
+  }
 }
 function isMobileDevice() {
   return window.innerWidth <= 651;
+}
+function setFormError(formGroup, errorSelector, errorText) {
+  if (!formGroup) return;
+  const errorAttr = errorSelector.replace(/[\[\]]/g, "");
+  let errorElement = formGroup.querySelector(errorSelector);
+  if (errorElement) {
+    errorElement.textContent = errorText;
+  } else {
+    formGroup.insertAdjacentHTML("beforeend", `<div ${errorAttr}>${errorText}</div>`);
+  }
 }
 function initMultiStepForm() {
   const forms = document.querySelectorAll(".multi-step-form");
@@ -3321,7 +3539,7 @@ function initMultiStepForm() {
       });
       let isLastStep = false;
       if (!isMobile) {
-        isLastStep = stepNumber === 3;
+        isLastStep = stepNumber === 2;
       } else {
         isLastStep = stepNumber === totalSteps;
       }
@@ -3336,7 +3554,7 @@ function initMultiStepForm() {
         setTimeout(() => {
           if (form) {
             form.reset();
-            const errorMessages = form.querySelectorAll("[data-zip-error]");
+            const errorMessages = form.querySelectorAll("[data-zip-error], [data-date-error], [data-select-error], [data-name-error], [data-phone-error], [data-email-error]");
             errorMessages.forEach((error) => error.remove());
             const inputs = form.querySelectorAll("input, select, textarea");
             inputs.forEach((input) => {
@@ -3350,9 +3568,41 @@ function initMultiStepForm() {
                 input.parentElement.classList.remove("--form-error", "--form-success", "--form-focus");
               }
             });
+            const dateInput = form.querySelector("#moving-date");
+            if (dateInput) {
+              dateInput.value = "";
+              if (window.flsDatepicker && window.flsDatepicker.getDate) {
+                const datepickerInstance = window.flsDatepicker.getDate(dateInput);
+                if (datepickerInstance && datepickerInstance.clear) {
+                  datepickerInstance.clear();
+                }
+              }
+              const dateFormGroup = dateInput.closest(".form-group");
+              if (dateFormGroup) {
+                dateFormGroup.classList.remove("--form-error", "--form-success", "--form-focus");
+              }
+              dateInput.classList.remove("--form-error", "--form-success", "--form-focus");
+            }
+            const homeSizeSelect2 = form.querySelector('select[name="home_size"]') || form.querySelector("#home-size");
+            if (homeSizeSelect2) {
+              homeSizeSelect2.value = "";
+              const selectFormGroup = homeSizeSelect2.closest(".form-group");
+              if (selectFormGroup) {
+                selectFormGroup.classList.remove("--form-error", "--form-success", "--form-focus");
+                const customSelect = selectFormGroup.querySelector(".select");
+                if (customSelect) {
+                  customSelect.classList.remove("--form-error", "--form-success", "--form-focus");
+                  const selectTitle = customSelect.querySelector(".select__title");
+                  if (selectTitle) {
+                    selectTitle.classList.remove("--form-error", "--form-success", "--form-focus");
+                  }
+                }
+              }
+            }
             if (window.flsSelect) {
               const selects = form.querySelectorAll("select[data-fls-select]");
               selects.forEach((select) => {
+                select.value = "";
                 window.flsSelect.selectBuild(select);
               });
             }
@@ -3441,6 +3691,10 @@ function initMultiStepForm() {
         if (!dateValid || !selectValid || !nameValid || !phoneValid || !emailValid) {
           return;
         }
+        if (btnSubmit) {
+          btnSubmit.click();
+          return;
+        }
       }
       if (currentStep < totalSteps) {
         currentStep++;
@@ -3465,10 +3719,6 @@ function initMultiStepForm() {
       if (!input) return false;
       const value = input.value.trim();
       const formGroup = input.closest(".form-group");
-      const existingError = formGroup?.querySelector("[data-zip-error]");
-      if (existingError) {
-        existingError.remove();
-      }
       input.classList.remove("--form-error", "--form-success");
       if (formGroup) {
         formGroup.classList.remove("--form-error", "--form-success");
@@ -3477,7 +3727,7 @@ function initMultiStepForm() {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-zip-error>Zip code field can not be empty</div>");
+          setFormError(formGroup, "[data-zip-error]", "Zip code field can not be empty");
         }
         return false;
       }
@@ -3485,7 +3735,7 @@ function initMultiStepForm() {
         input.classList.add("--form-error");
         if (formGroup) {
           formGroup.classList.add("--form-error");
-          formGroup.insertAdjacentHTML("beforeend", "<div data-zip-error>Wrong zip code format</div>");
+          setFormError(formGroup, "[data-zip-error]", "Wrong zip code format");
         }
         return false;
       }
@@ -3563,10 +3813,6 @@ function initMultiStepForm() {
         if (!input) return false;
         const value = input.value.trim();
         const formGroup = input.closest(".form-group");
-        const existingError = formGroup?.querySelector("[data-date-error]");
-        if (existingError) {
-          existingError.remove();
-        }
         input.classList.remove("--form-error", "--form-success");
         if (formGroup) {
           formGroup.classList.remove("--form-error", "--form-success");
@@ -3575,7 +3821,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-date-error>Please select a moving date</div>");
+            setFormError(formGroup, "[data-date-error]", "Please select a moving date");
           }
           return false;
         }
@@ -3608,10 +3854,6 @@ function initMultiStepForm() {
         const formGroup = select.closest(".form-group");
         const customSelect = formGroup?.querySelector(".select");
         const selectTitle = customSelect?.querySelector(".select__title");
-        const existingError = formGroup?.querySelector("[data-select-error]");
-        if (existingError) {
-          existingError.remove();
-        }
         if (selectTitle) {
           selectTitle.classList.remove("--form-error", "--form-success");
         }
@@ -3630,7 +3872,7 @@ function initMultiStepForm() {
           }
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-select-error>Please select a home size</div>");
+            setFormError(formGroup, "[data-select-error]", "Please select a home size");
           }
           return false;
         }
@@ -3692,10 +3934,6 @@ function initMultiStepForm() {
         if (!input) return false;
         const value = input.value.trim();
         const formGroup = input.closest(".form-group");
-        const existingError = formGroup?.querySelector("[data-name-error]");
-        if (existingError) {
-          existingError.remove();
-        }
         input.classList.remove("--form-error", "--form-success");
         if (formGroup) {
           formGroup.classList.remove("--form-error", "--form-success");
@@ -3704,7 +3942,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Full name field can not be empty</div>");
+            setFormError(formGroup, "[data-name-error]", "Full name field can not be empty");
           }
           return false;
         }
@@ -3713,7 +3951,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Please enter first and last name</div>");
+            setFormError(formGroup, "[data-name-error]", "Please enter first and last name");
           }
           return false;
         }
@@ -3722,7 +3960,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>First name must contain at least 3 letters</div>");
+            setFormError(formGroup, "[data-name-error]", "First name must contain at least 3 letters");
           }
           return false;
         }
@@ -3731,7 +3969,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-name-error>Last name must contain at least 3 letters</div>");
+            setFormError(formGroup, "[data-name-error]", "Last name must contain at least 3 letters");
           }
           return false;
         }
@@ -3755,10 +3993,6 @@ function initMultiStepForm() {
         if (!input) return false;
         const value = input.value.trim();
         const formGroup = input.closest(".form-group");
-        const existingError = formGroup?.querySelector("[data-phone-error]");
-        if (existingError) {
-          existingError.remove();
-        }
         input.classList.remove("--form-error", "--form-success");
         if (formGroup) {
           formGroup.classList.remove("--form-error", "--form-success");
@@ -3767,7 +4001,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Phone field can not be empty</div>");
+            setFormError(formGroup, "[data-phone-error]", "Phone field can not be empty");
           }
           return false;
         }
@@ -3776,7 +4010,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Wrong phone number format</div>");
+            setFormError(formGroup, "[data-phone-error]", "Wrong phone number format");
           }
           return false;
         }
@@ -3784,7 +4018,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Please enter a complete phone number</div>");
+            setFormError(formGroup, "[data-phone-error]", "Please enter a complete phone number");
           }
           return false;
         }
@@ -3793,7 +4027,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-phone-error>Wrong phone number format</div>");
+            setFormError(formGroup, "[data-phone-error]", "Wrong phone number format");
           }
           return false;
         }
@@ -3819,10 +4053,6 @@ function initMultiStepForm() {
         if (!input) return false;
         const value = input.value.trim();
         const formGroup = input.closest(".form-group");
-        const existingError = formGroup?.querySelector("[data-email-error]");
-        if (existingError) {
-          existingError.remove();
-        }
         input.classList.remove("--form-error", "--form-success");
         if (formGroup) {
           formGroup.classList.remove("--form-error", "--form-success");
@@ -3831,7 +4061,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Email field can not be empty</div>");
+            setFormError(formGroup, "[data-email-error]", "Email field can not be empty");
           }
           return false;
         }
@@ -3840,7 +4070,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Wrong email format</div>");
+            setFormError(formGroup, "[data-email-error]", "Wrong email format");
           }
           return false;
         }
@@ -3849,7 +4079,7 @@ function initMultiStepForm() {
           input.classList.add("--form-error");
           if (formGroup) {
             formGroup.classList.add("--form-error");
-            formGroup.insertAdjacentHTML("beforeend", "<div data-email-error>Wrong email format</div>");
+            setFormError(formGroup, "[data-email-error]", "Wrong email format");
           }
           return false;
         }
@@ -3870,8 +4100,47 @@ function initMultiStepForm() {
           validateEmail(emailInput);
         });
       }
+      if (btnSubmit) {
+        btnSubmit.addEventListener("click", (e) => {
+          if (currentStep === 2) {
+            e.preventDefault();
+            e.stopPropagation();
+            const dateValid = validateMovingDate ? validateMovingDate(movingDateInput) : false;
+            const selectValid = validateHomeSize ? validateHomeSize(homeSizeSelect) : false;
+            const nameValid = validateFullName ? validateFullName(fullNameInput) : false;
+            const phoneValid = validatePhone ? validatePhone(phoneInput) : false;
+            const emailValid = validateEmail ? validateEmail(emailInput) : false;
+            if (dateValid && selectValid && nameValid && phoneValid && emailValid) {
+              form.requestSubmit();
+            }
+          }
+        });
+        form.addEventListener("submit", (e) => {
+          if (currentStep === 2) {
+            const dateValid = validateMovingDate ? validateMovingDate(movingDateInput) : false;
+            const selectValid = validateHomeSize ? validateHomeSize(homeSizeSelect) : false;
+            const nameValid = validateFullName ? validateFullName(fullNameInput) : false;
+            const phoneValid = validatePhone ? validatePhone(phoneInput) : false;
+            const emailValid = validateEmail ? validateEmail(emailInput) : false;
+            if (!dateValid || !selectValid || !nameValid || !phoneValid || !emailValid) {
+              e.preventDefault();
+              e.stopPropagation();
+              return false;
+            }
+          }
+        }, true);
+      }
     }
     showStep(1);
+    const handleFormSent = (e) => {
+      if (!e.detail || e.detail.form === form) {
+        if (!isMobile) {
+          currentStep = 3;
+          showStep(3);
+        }
+      }
+    };
+    document.addEventListener("formSent", handleFormSent, { once: false });
   });
 }
 window.addEventListener("load", () => {

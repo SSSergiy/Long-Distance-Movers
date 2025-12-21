@@ -577,7 +577,7 @@ body:has(.quote-page) .home-page__header-bottom {
 }
 
 body:has(.quote-page) .home-page__header {
-  margin-block-end: 7.125rem;
+  margin-block-end: 0 !important;
 }
 
 body:has(div[data-step-mobile="1"][style*="display: block"]) .home-page__header {
